@@ -1,0 +1,26 @@
+$menu-bar-color: #13191C !default;
+
+.left-menu {
+  width: 36px;
+  flex: none;
+  background-color: $menu-bar-color;
+
+  .button-icon {
+    background-color: rgba(255, 255, 255, 0.0);
+    border: none;
+    display: block;
+    margin: auto;
+    top: 7px; //HACK - not sure how else to center vertically
+  }
+  .button {
+    color: $button-inactive-color;
+    height: 36px;
+    position: relative;
+  
+    &:hover, &.active {
+      color:$button-hover-color;
+      background-color: rgba(255, 255, 255, 0.10);
+      border-left: 3px solid $accent-color;
+    }
+  }
+}

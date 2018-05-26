@@ -1,0 +1,27 @@
+body {
+  color: $text-color;
+  background: $background-color;
+  margin: 0px;
+}
+.outer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+}
+.main {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+.content {
+  flex: 1 1;
+}
+.map {
+  position: relative;
+  height: 100%;
+}
+#cesiumContainer {
+  height: 100%;
+}
