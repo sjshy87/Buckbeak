@@ -35,7 +35,7 @@ class App extends Component {
     this.collapseRight(!this.state.collapseRight)
   }
   toggleBottom() {
-    this.collapseBottom(!this.state.collapseBottom);
+    this.collapseBottom(!this.state.collapseBottom)
   }
   collapseLeft(collapseLeft) {
     this.setState({ ...this.state, collapseLeft });
