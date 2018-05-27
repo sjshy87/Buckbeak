@@ -23,6 +23,7 @@ class App extends Component {
       collapseBottom: false
     };
     this.map = React.createRef();
+    //blah
   }
   onMapResize() {
     this.map.resize();
