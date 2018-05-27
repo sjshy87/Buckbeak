@@ -38,7 +38,7 @@ class App extends Component {
     this.collapseBottom(!this.state.collapseBottom)
   }
   collapseLeft(collapseLeft) {
-    this.setState({ ...this.state, collapseLeft });
+    this.setState({ ...this.state, collapseLeft })
   }
   collapseRight(collapseRight) {
     this.setState({ ...this.state, collapseRight });
