@@ -25,20 +25,20 @@ class App extends Component {
     this.map = React.createRef();
   }
   onMapResize() {
-    this.refs.map.resize();
+    this.map.resize();
   }
 
   toggleLeft() {
-    this.collapseLeft(!this.state.collapseLeft)
+    this.collapseLeft(!this.state.collapseLeft);
   }
   toggleRight() {
-    this.collapseRight(!this.state.collapseRight)
+    this.collapseRight(!this.state.collapseRight);
   }
   toggleBottom() {
-    this.collapseBottom(!this.state.collapseBottom)
+    this.collapseBottom(!this.state.collapseBottom);
   }
   collapseLeft(collapseLeft) {
-    this.setState({ ...this.state, collapseLeft })
+    this.setState({ ...this.state, collapseLeft });
   }
   collapseRight(collapseRight) {
     this.setState({ ...this.state, collapseRight });

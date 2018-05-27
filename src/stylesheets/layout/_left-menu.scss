@@ -1,4 +1,4 @@
-$menu-bar-color: #13191C !default;
+$menu-bar-color: #13191c !default;
 
 .left-menu {
   width: 36px;
@@ -6,7 +6,7 @@ $menu-bar-color: #13191C !default;
   background-color: $menu-bar-color;
 
   .button-icon {
-    background-color: rgba(255, 255, 255, 0.0);
+    background-color: rgba(255, 255, 255, 0);
     border: none;
     display: block;
     margin: auto;
@@ -16,10 +16,11 @@ $menu-bar-color: #13191C !default;
     color: $button-inactive-color;
     height: 36px;
     position: relative;
-  
-    &:hover, &.active {
-      color:$button-hover-color;
-      background-color: rgba(255, 255, 255, 0.10);
+
+    &:hover,
+    &.active {
+      color: $button-hover-color;
+      background-color: rgba(255, 255, 255, 0.1);
       border-left: 3px solid $accent-color;
     }
   }
