@@ -48,12 +48,12 @@
     }
   },
   "lint-staged": {
-    "*.{js}": [
+    "src/**/*.{js}": [
       "eslint --fix",
       "prettier --write",
       "git add"
     ],
-    "*.{scss}": [
+    "src/**/*.{scss}": [
       "stylelint --syntax=scss"
     ]
   },
