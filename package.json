@@ -41,6 +41,12 @@
     "precommit": "lint-staged",
     "eject": "react-scripts eject"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
+  },
   "lint-staged": {
     "*.{js}": [
       "eslint --fix",

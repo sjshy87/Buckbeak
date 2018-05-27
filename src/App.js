@@ -29,10 +29,10 @@ class App extends Component {
   }
 
   toggleLeft() {
-    this.collapseLeft(!this.state.collapseLeft);
+    this.collapseLeft(!this.state.collapseLeft)
   }
   toggleRight() {
-    this.collapseRight(!this.state.collapseRight);
+    this.collapseRight(!this.state.collapseRight)
   }
   toggleBottom() {
     this.collapseBottom(!this.state.collapseBottom);
