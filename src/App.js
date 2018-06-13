@@ -84,7 +84,7 @@ class App extends Component {
                   Left
                 </CollapsibleElement>
               )}
-              {!this.props.collapseLeft && <ReflexSplitter propogate={true} />}
+              {!this.props.panels.left && <ReflexSplitter propogate={true} />}
               <ReflexElement>
                 <ReflexContainer orientation="horizontal">
                   <ReflexElement
@@ -99,8 +99,8 @@ class App extends Component {
                   )}
                   {!this.props.panels.bottom && (
                     <CollapsibleElement
-                      className="right-pane"
-                      onCollapse={() => this.props.collapseRight()}
+                      className="bottom-pane"
+                      onCollapse={() => this.props.collapseBottom()}
                       maxSize={500}
                       threshold={60}
                     >

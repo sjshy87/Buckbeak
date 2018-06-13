@@ -1,23 +1,17 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import { ReflexElement } from "react-reflex";
+import PropTypes from "prop-types";
 
 class CollapsibleElement extends React.Component {
-  componentWillReceiveProps(nextProps) {
-    if (this.props.onCollapse && this.getSize() < this.props.threshold) {
-      this.props.onCollapse();
-    }
-  }
-
+  //TODO: Use the threshold parameter to auto-close
   getSize() {
-    const domElement = ReactDOM.findDOMNode(this);
-
     switch (this.props.orientation) {
       case "horizontal":
-        return domElement.offsetHeight;
+        return this.node.offsetHeight;
 
       case "vertical":
-        return domElement.offsetWidth;
+        return this.node.offsetWidth;
 
       default:
         return 0;
@@ -32,5 +26,10 @@ class CollapsibleElement extends React.Component {
     );
   }
 }
+
+CollapsibleElement.propTypes = {
+  orientation: PropTypes.string.isRequired,
+  children: PropTypes.array
+};
 
 export default CollapsibleElement;
