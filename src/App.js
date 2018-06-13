@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import fontawesome from "@fortawesome/fontawesome";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
@@ -11,42 +12,35 @@ import Map2D from "./components/Map2D";
 import Grid from "./components/Grid";
 import "react-reflex/styles.css";
 import "./stylesheets/main.css";
+import { togglePanel, collapsePanel } from "./js/actions/index";
+import PropTypes from "prop-types";
+console.log("Blah");
 
 fontawesome.library.add(search, rss, chart, brands);
 
+function mapStateToProps(state) {
+  console.log("Mapping state", state);
+  return {
+    panels: state.panels
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    toggleLeft: () => dispatch(togglePanel("left")),
+    toggleRight: () => dispatch(togglePanel("right")),
+    toggleBottom: () => dispatch(togglePanel("bottom")),
+    collapseLeft: () => dispatch(collapsePanel("left")),
+    collapseRight: () => dispatch(collapsePanel("right")),
+    collapseBottom: () => dispatch(collapsePanel("bottom"))
+  };
+}
+
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      collapseRight: true,
-      collapseLeft: true,
-      collapseBottom: false
-    };
-    this.map = React.createRef();
-    //blah
-  }
   onMapResize() {
-    this.map.resize();
+    console.log("TODO: Resize map");
+    //this.map.resize();
   }
 
-  toggleLeft() {
-    this.collapseLeft(!this.state.collapseLeft);
-  }
-  toggleRight() {
-    this.collapseRight(!this.state.collapseRight);
-  }
-  toggleBottom() {
-    this.collapseBottom(!this.state.collapseBottom);
-  }
-  collapseLeft(collapseLeft) {
-    this.setState({ ...this.state, collapseLeft });
-  }
-  collapseRight(collapseRight) {
-    this.setState({ ...this.state, collapseRight });
-  }
-  collapseBottom(collapseBottom) {
-    this.setState({ ...this.state, collapseBottom });
-  }
   render() {
     return (
       <div className="outer">
@@ -60,17 +54,17 @@ class App extends Component {
         </div>
         <div className="main">
           <div className="left-menu">
-            <div className="button" onClick={() => this.toggleLeft()}>
+            <div className="button" onClick={() => this.props.toggleLeft()}>
               <FontAwesomeIcon
                 className="button-icon"
                 icon="search"
                 size="lg"
               />
             </div>
-            <div className="button" onClick={() => this.toggleRight()}>
+            <div className="button" onClick={() => this.props.toggleRight()}>
               <FontAwesomeIcon className="button-icon" icon="rss" size="lg" />
             </div>
-            <div className="button" onClick={() => this.toggleBottom()}>
+            <div className="button" onClick={() => this.props.toggleBottom()}>
               <FontAwesomeIcon
                 className="button-icon"
                 icon="chart-bar"
@@ -80,17 +74,17 @@ class App extends Component {
           </div>
           <div className="content">
             <ReflexContainer orientation="vertical">
-              {!this.state.collapseLeft && (
+              {!this.props.panels.left && (
                 <CollapsibleElement
                   className="left-pane"
-                  onCollapse={() => this.collapseLeft(true)}
+                  onCollapse={() => this.props.collapseLeft()}
                   maxSize={400}
                   threshold={40}
                 >
                   Left
                 </CollapsibleElement>
               )}
-              {!this.state.collapseLeft && <ReflexSplitter propogate={true} />}
+              {!this.props.collapseLeft && <ReflexSplitter propogate={true} />}
               <ReflexElement>
                 <ReflexContainer orientation="horizontal">
                   <ReflexElement
@@ -100,13 +94,13 @@ class App extends Component {
                   >
                     <Map2D className="map-container" ref={this.map} />
                   </ReflexElement>
-                  {!this.state.collapseBottom && (
+                  {!this.props.panels.bottom && (
                     <ReflexSplitter propagate={true} />
                   )}
-                  {!this.state.collapseBottom && (
+                  {!this.props.panels.bottom && (
                     <CollapsibleElement
                       className="right-pane"
-                      onCollapse={() => this.collapseRight(true)}
+                      onCollapse={() => this.props.collapseRight()}
                       maxSize={500}
                       threshold={60}
                     >
@@ -115,11 +109,11 @@ class App extends Component {
                   )}
                 </ReflexContainer>
               </ReflexElement>
-              {!this.state.collapseRight && <ReflexSplitter propagate={true} />}
-              {!this.state.collapseRight && (
+              {!this.props.panels.right && <ReflexSplitter propagate={true} />}
+              {!this.props.panels.right && (
                 <CollapsibleElement
                   className="right-pane"
-                  onCollapse={() => this.collapseRight(true)}
+                  onCollapse={() => this.props.collapseRight()}
                   maxSize={400}
                   threshold={60}
                 >
@@ -134,5 +128,15 @@ class App extends Component {
     );
   }
 }
+App.propTypes = {
+  panels: PropTypes.object.isRequired,
+  toggleLeft: PropTypes.func.isRequired,
+  toggleRight: PropTypes.func.isRequired,
+  toggleBottom: PropTypes.func.isRequired,
+  collapseLeft: PropTypes.func.isRequired,
+  collapseRight: PropTypes.func.isRequired,
+  collapseBottom: PropTypes.func.isRequired
+};
 
-export default App;
+console.log("Exporting");
+export default connect(mapStateToProps, mapDispatchToProps)(App);
