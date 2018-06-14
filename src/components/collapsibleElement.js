@@ -1,4 +1,3 @@
-import ReactDOM from "react-dom";
 import React from "react";
 import { ReflexElement } from "react-reflex";
 import PropTypes from "prop-types";
@@ -28,8 +27,8 @@ class CollapsibleElement extends React.Component {
 }
 
 CollapsibleElement.propTypes = {
-  orientation: PropTypes.string.isRequired,
-  children: PropTypes.array
+  orientation: PropTypes.string,
+  children: PropTypes.object
 };
 
 export default CollapsibleElement;

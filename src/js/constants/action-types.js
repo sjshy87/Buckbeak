@@ -1,3 +1,0 @@
-export const COLLAPSE_PANEL = "COLLAPSE_PANEL";
-export const EXPAND_PANEL = "EXPAND_PANEL";
-export const TOGGLE_PANEL = "TOGGLE_PANEL";

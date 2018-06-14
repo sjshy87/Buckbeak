@@ -12,7 +12,7 @@ import Map2D from "./components/Map2D";
 import Grid from "./components/Grid";
 import "react-reflex/styles.css";
 import "./stylesheets/main.css";
-import { togglePanel, collapsePanel } from "./js/actions/index";
+import { togglePanel, collapsePanel } from "./js/actions/panels";
 import PropTypes from "prop-types";
 console.log("Blah");
 
