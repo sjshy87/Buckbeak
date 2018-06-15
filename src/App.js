@@ -8,20 +8,21 @@ import rss from "@fortawesome/fontawesome-free-solid/faRss";
 import chart from "@fortawesome/fontawesome-free-solid/faChartBar";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import CollapsibleElement from "./components/collapsibleElement";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Map2D from "./components/Map2D";
 import Grid from "./components/Grid";
 import "react-reflex/styles.css";
 import "./stylesheets/main.css";
 import { togglePanel, collapsePanel } from "./js/actions/panels";
 import PropTypes from "prop-types";
-console.log("Blah");
 
 fontawesome.library.add(search, rss, chart, brands);
 
 function mapStateToProps(state) {
   console.log("Mapping state", state);
   return {
-    panels: state.panels
+    panels: state.panels,
+    map: state.map
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -92,7 +93,13 @@ class App extends Component {
                     className="middle-pane"
                     onResize={this.onMapResize}
                   >
-                    <Map2D className="map-container" ref={this.map} />
+                    <ErrorBoundary>
+                      <Map2D
+                        className="map-container"
+                        ref={this.map}
+                        settings={this.props.map}
+                      />
+                    </ErrorBoundary>
                   </ReflexElement>
                   {!this.props.panels.bottom && (
                     <ReflexSplitter propagate={true} />
@@ -130,6 +137,7 @@ class App extends Component {
 }
 App.propTypes = {
   panels: PropTypes.object.isRequired,
+  map: PropTypes.object.isRequired,
   toggleLeft: PropTypes.func.isRequired,
   toggleRight: PropTypes.func.isRequired,
   toggleBottom: PropTypes.func.isRequired,
@@ -138,5 +146,4 @@ App.propTypes = {
   collapseBottom: PropTypes.func.isRequired
 };
 
-console.log("Exporting");
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import PropTypes from "prop-types";
 
 export default class Map2D extends Component {
+  constructor(props) {
+    super(props);
+    this.map = React.createRef();
+  }
+  static propTypes = {
+    settings: PropTypes.object.isRequired
+  };
   state = {
-    lat: 51.505,
-    lng: -0.09,
-    zoom: 13
+    markers: [[51.505, -0.09]]
   };
 
   componentDidUpdate() {
@@ -13,20 +19,45 @@ export default class Map2D extends Component {
   }
   resize() {
     console.log("Invalidating Size");
-    const map = this.refs.map.leafletElement;
+    console.log(this.state.markers);
+    const map = this.map.current.leafletElement;
     map.invalidateSize();
+  }
+  clicked(e) {
+    console.log("CLICKED", e.latlng);
+    if (this.state === undefined) return;
+    const { markers } = this.state;
+    markers.push(e.latlng);
+    this.setState({ markers });
   }
 
   render() {
-    const position = [this.state.lat, this.state.lng];
+    console.log("Settings", this.props.settings);
     return (
-      <Map center={position} zoom={this.state.zoom} ref="map">
-        <TileLayer url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png" />
-        <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+      <Map
+        ref={this.map}
+        crs={this.props.settings.crs.crs}
+        center={this.props.settings.center}
+        {...this.props.settings.crs.settings}
+        zoom={this.props.settings.zoom}
+        onClick={this.clicked.bind(this)}
+      >
+        <TileLayer
+          {...this.props.settings.layer.settings}
+          onTileerror={console.warn}
+          onLoading={console.log}
+          onLoad={console.log}
+        />
+
+        {this.state.markers.map((position, idx) => (
+          <Marker key={`marker-${idx}`} position={position}>
+            <Popup>
+              <span>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </span>
+            </Popup>
+          </Marker>
+        ))}
       </Map>
     );
   }
