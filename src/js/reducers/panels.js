@@ -5,7 +5,6 @@ const initialState = {
   bottom: false
 };
 export default function panel(state = initialState, action) {
-  console.log("STATE", state);
   switch (action.type) {
     case COLLAPSE_PANEL:
       return { ...state, [action.panel]: false };

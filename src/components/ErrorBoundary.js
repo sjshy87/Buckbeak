@@ -8,7 +8,7 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
   static propTypes = {
-    children: PropTypes.array
+    children: PropTypes.object
   };
 
   componentDidCatch(error, info) {

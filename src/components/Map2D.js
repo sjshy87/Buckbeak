@@ -19,7 +19,6 @@ export default class Map2D extends Component {
   }
   resize() {
     console.log("Invalidating Size");
-    console.log(this.state.markers);
     const map = this.map.current.leafletElement;
     map.invalidateSize();
   }
@@ -32,7 +31,6 @@ export default class Map2D extends Component {
   }
 
   render() {
-    console.log("Settings", this.props.settings);
     return (
       <Map
         ref={this.map}

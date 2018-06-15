@@ -19,7 +19,6 @@ import PropTypes from "prop-types";
 fontawesome.library.add(search, rss, chart, brands);
 
 function mapStateToProps(state) {
-  console.log("Mapping state", state);
   return {
     panels: state.panels,
     map: state.map

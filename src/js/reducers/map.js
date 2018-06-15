@@ -1,14 +1,19 @@
 import "proj4";
 import "proj4leaflet";
 import L from "leaflet";
+
 import {
+  SET_PROJECTION,
+  SET_BASELAYER,
   ADD_BASELAYER,
-  ADD_OVERLAY,
   REMOVE_BASELAYER,
+  SHOW_OVERLAY,
+  HIDE_OVERLAY,
+  ADD_OVERLAY,
   REMOVE_OVERLAY
 } from "../actions/map";
 
-const pixel_ratio = parseInt(window.devicePixelRatio) || 1;
+const pixel_ratio = parseInt(window.devicePixelRatio, 10) || 1;
 
 const max_zoom = 16;
 const tile_size = 512;
@@ -18,7 +23,6 @@ const resolutions = Array(max_zoom + 1)
   .fill()
   .map((_, i) => extent / tile_size / Math.pow(2, i - 1));
 
-console.log(new L.Proj.CRS("GOOGLE"));
 const polar = new L.Proj.CRS(
   "EPSG:3575",
   "+proj=laea +lat_0=90 +lon_0=10 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
@@ -31,7 +35,6 @@ const polar = new L.Proj.CRS(
     resolutions: resolutions
   }
 );
-console.log(new L.Proj.CRS("GOOGLE"));
 const projections = [
   {
     name: "Web Mercator",
@@ -82,14 +85,50 @@ const initialState = {
 };
 export default function map(state = initialState, action) {
   /* TODO: Implement above actions */
+  let idx = -1;
   switch (action.type) {
+    case SET_PROJECTION:
+      return { ...state, crs: action.projection };
+    case SET_BASELAYER:
+      if (state.crs.projection === action.layer.projection) {
+        return { ...state, layer: action.layer };
+      } else {
+        let projection = state.projections.find(p => p === action.projection);
+        return {
+          ...state,
+          center: projection.settings.center,
+          layer: action.layer,
+          crs: projection
+        };
+      }
     case ADD_BASELAYER:
-      return state;
+      return { ...state, baseLayers: [...state.baseLayers, action.layer] };
     case ADD_OVERLAY:
-      return state;
+      return { ...state, overlays: [...state.overlays, action.layer] };
     case REMOVE_BASELAYER:
+      const oldLayers = state.baseLayers;
+      idx = oldLayers.indexOf(action.layer);
+      if (idx >= 0)
+        return {
+          ...state,
+          baseLayers: [...oldLayers.slice(0, idx), ...oldLayers.slice(idx + 1)]
+        };
       return state;
     case REMOVE_OVERLAY:
+      const oldOverlays = state.overlays;
+      idx = oldOverlays.indexOf(action.layer);
+      if (idx >= 0)
+        return {
+          ...state,
+          overlays: [
+            ...oldOverlays.slice(0, idx),
+            ...oldOverlays.slice(idx + 1)
+          ]
+        };
+      return state;
+    case SHOW_OVERLAY:
+      return state;
+    case HIDE_OVERLAY:
       return state;
     default:
       return state;
