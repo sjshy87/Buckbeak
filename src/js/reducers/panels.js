@@ -4,7 +4,7 @@ const initialState = {
   left: true,
   bottom: false
 };
-export default function panel(state = initialState, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case COLLAPSE_PANEL:
       return { ...state, [action.panel]: false };

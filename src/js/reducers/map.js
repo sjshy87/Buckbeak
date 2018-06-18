@@ -83,7 +83,7 @@ const initialState = {
   projections,
   zoom: 5
 };
-export default function map(state = initialState, action) {
+export default function(state = initialState, action) {
   /* TODO: Implement above actions */
   let idx = -1;
   switch (action.type) {
