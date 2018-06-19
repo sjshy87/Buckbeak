@@ -36,6 +36,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 class App extends Component {
+  static propTypes = {
+    panel: PropTypes.object.isRequired,
+    toggleLeft: PropTypes.func.isRequired,
+    toggleRight: PropTypes.func.isRequired,
+    toggleBottom: PropTypes.func.isRequired,
+    collapseLeft: PropTypes.func.isRequired,
+    collapseRight: PropTypes.func.isRequired,
+    collapseBottom: PropTypes.func.isRequired
+  };
+
   onMapResize() {
     console.log("TODO: Resize map");
     //this.map.resize();
@@ -130,14 +140,5 @@ class App extends Component {
     );
   }
 }
-App.propTypes = {
-  panel: PropTypes.object.isRequired,
-  toggleLeft: PropTypes.func.isRequired,
-  toggleRight: PropTypes.func.isRequired,
-  toggleBottom: PropTypes.func.isRequired,
-  collapseLeft: PropTypes.func.isRequired,
-  collapseRight: PropTypes.func.isRequired,
-  collapseBottom: PropTypes.func.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
