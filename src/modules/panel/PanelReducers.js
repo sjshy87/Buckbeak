@@ -1,4 +1,4 @@
-import { COLLAPSE_PANEL, EXPAND_PANEL, TOGGLE_PANEL } from "../actions/panels";
+import { COLLAPSE_PANEL, EXPAND_PANEL, TOGGLE_PANEL } from "./PanelActions";
 const initialState = {
   right: true,
   left: true,

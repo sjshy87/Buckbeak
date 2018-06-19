@@ -1,4 +1,4 @@
-import { QUERY } from "../actions/queries";
+import { QUERY } from "./QueryActions";
 const initialState = {
   adapters: []
 };

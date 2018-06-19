@@ -7,20 +7,20 @@ import search from "@fortawesome/fontawesome-free-solid/faSearch";
 import rss from "@fortawesome/fontawesome-free-solid/faRss";
 import chart from "@fortawesome/fontawesome-free-solid/faChartBar";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
-import CollapsibleElement from "./components/collapsibleElement";
+import CollapsibleElement from "./modules/panel/CollapsibleElement";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Map2D from "./components/Map2D";
+import Map2D from "./modules/map/Map2D";
 import Grid from "./components/Grid";
 import "react-reflex/styles.css";
 import "./stylesheets/main.css";
-import { togglePanel, collapsePanel } from "./js/actions/panels";
+import { togglePanel, collapsePanel } from "./modules/panel/PanelActions";
 import PropTypes from "prop-types";
 
 fontawesome.library.add(search, rss, chart, brands);
 
 function mapStateToProps(state) {
   return {
-    panels: state.panels,
+    panel: state.panel,
     map: state.map
   };
 }
@@ -74,7 +74,7 @@ class App extends Component {
           </div>
           <div className="content">
             <ReflexContainer orientation="vertical">
-              {!this.props.panels.left && (
+              {!this.props.panel.left && (
                 <CollapsibleElement
                   className="left-pane"
                   onCollapse={() => this.props.collapseLeft()}
@@ -84,7 +84,7 @@ class App extends Component {
                   Left
                 </CollapsibleElement>
               )}
-              {!this.props.panels.left && <ReflexSplitter propogate={true} />}
+              {!this.props.panel.left && <ReflexSplitter propogate={true} />}
               <ReflexElement>
                 <ReflexContainer orientation="horizontal">
                   <ReflexElement
@@ -93,17 +93,13 @@ class App extends Component {
                     onResize={this.onMapResize}
                   >
                     <ErrorBoundary>
-                      <Map2D
-                        className="map-container"
-                        ref={this.map}
-                        settings={this.props.map}
-                      />
+                      <Map2D ref={this.map} />
                     </ErrorBoundary>
                   </ReflexElement>
-                  {!this.props.panels.bottom && (
+                  {!this.props.panel.bottom && (
                     <ReflexSplitter propagate={true} />
                   )}
-                  {!this.props.panels.bottom && (
+                  {!this.props.panel.bottom && (
                     <CollapsibleElement
                       className="bottom-pane"
                       onCollapse={() => this.props.collapseBottom()}
@@ -115,8 +111,8 @@ class App extends Component {
                   )}
                 </ReflexContainer>
               </ReflexElement>
-              {!this.props.panels.right && <ReflexSplitter propagate={true} />}
-              {!this.props.panels.right && (
+              {!this.props.panel.right && <ReflexSplitter propagate={true} />}
+              {!this.props.panel.right && (
                 <CollapsibleElement
                   className="right-pane"
                   onCollapse={() => this.props.collapseRight()}
@@ -135,8 +131,7 @@ class App extends Component {
   }
 }
 App.propTypes = {
-  panels: PropTypes.object.isRequired,
-  map: PropTypes.object.isRequired,
+  panel: PropTypes.object.isRequired,
   toggleLeft: PropTypes.func.isRequired,
   toggleRight: PropTypes.func.isRequired,
   toggleBottom: PropTypes.func.isRequired,

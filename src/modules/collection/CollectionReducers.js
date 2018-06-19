@@ -2,7 +2,7 @@ import {
   CREATE_COLLECTION,
   DELETE_COLLECTION,
   UPDATE_COLLECTION
-} from "../actions/collections";
+} from "./CollectionActions";
 const initialState = {
   collections: []
 };

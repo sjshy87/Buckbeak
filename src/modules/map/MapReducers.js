@@ -11,7 +11,7 @@ import {
   HIDE_OVERLAY,
   ADD_OVERLAY,
   REMOVE_OVERLAY
-} from "../actions/map";
+} from "./MapActions";
 
 const pixel_ratio = parseInt(window.devicePixelRatio, 10) || 1;
 
