@@ -6,6 +6,9 @@ import brands from "@fortawesome/fontawesome-free-brands";
 import search from "@fortawesome/fontawesome-free-solid/faSearch";
 import rss from "@fortawesome/fontawesome-free-solid/faRss";
 import chart from "@fortawesome/fontawesome-free-solid/faChartBar";
+import cancel from "@fortawesome/fontawesome-free-solid/faTimes";
+import pause from "@fortawesome/fontawesome-free-solid/faPause";
+import play from "@fortawesome/fontawesome-free-solid/faPlay";
 import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import CollapsibleElement from "./modules/panel/CollapsibleElement";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -14,13 +17,22 @@ import Grid from "./components/Grid";
 import "react-reflex/styles.css";
 import "./stylesheets/main.css";
 import { togglePanel, collapsePanel } from "./modules/panel/PanelActions";
+import {
+  createQuery,
+  cancelQuery,
+  startQuery,
+  stopQuery
+} from "./modules/query/QueryActions";
 import PropTypes from "prop-types";
+import { Observable } from "rxjs/Rx";
 
-fontawesome.library.add(search, rss, chart, brands);
+fontawesome.library.add(search, rss, chart, brands, cancel, pause, play);
 
 function mapStateToProps(state) {
   return {
+    collections: state.collections,
     panel: state.panel,
+    query: state.query,
     map: state.map
   };
 }
@@ -31,27 +43,62 @@ function mapDispatchToProps(dispatch) {
     toggleBottom: () => dispatch(togglePanel("bottom")),
     collapseLeft: () => dispatch(collapsePanel("left")),
     collapseRight: () => dispatch(collapsePanel("right")),
-    collapseBottom: () => dispatch(collapsePanel("bottom"))
+    collapseBottom: () => dispatch(collapsePanel("bottom")),
+    createQuery: observable => dispatch(createQuery({ observable })),
+    cancelQuery: id => dispatch(cancelQuery(id)),
+    startQuery: id => dispatch(startQuery(id)),
+    stopQuery: id => dispatch(stopQuery(id))
   };
 }
 
 class App extends Component {
   static propTypes = {
+    collections: PropTypes.object.isRequired,
     panel: PropTypes.object.isRequired,
+    query: PropTypes.object.isRequired,
     toggleLeft: PropTypes.func.isRequired,
     toggleRight: PropTypes.func.isRequired,
     toggleBottom: PropTypes.func.isRequired,
     collapseLeft: PropTypes.func.isRequired,
     collapseRight: PropTypes.func.isRequired,
-    collapseBottom: PropTypes.func.isRequired
+    collapseBottom: PropTypes.func.isRequired,
+    createQuery: PropTypes.func.isRequired,
+    cancelQuery: PropTypes.func.isRequired,
+    startQuery: PropTypes.func.isRequired,
+    stopQuery: PropTypes.func.isRequired
   };
 
+  componentDidMount() {
+    console.log("Mounting");
+    if (Object.keys(this.props.query).length == 0)
+      this.props.createQuery(Observable.interval(1000));
+  }
+  toggleQuery() {
+    const id = Object.keys(this.props.query)[0];
+    console.log(this.props.query);
+    if (id)
+      this.props.query[id].paused
+        ? this.props.startQuery(id)
+        : this.props.stopQuery(id);
+    else console.log("No queries", this.props.query);
+  }
+  id() {
+    return Object.keys(this.props.query)[0];
+  }
+
   onMapResize() {
-    console.log("TODO: Resize map");
     //this.map.resize();
+  }
+  cancelQuery() {
+    console.log(this.props.query);
+    const id = Object.keys(this.props.query)[0];
+    console.log("Cancelling", id);
+    this.props.cancelQuery(id);
   }
 
   render() {
+    let id = Object.keys(this.props.query)[0];
+    let icon = id ? (this.props.query[id].paused ? "play" : "pause") : null;
     return (
       <div className="outer">
         <div className="banner">Blah</div>
@@ -80,6 +127,12 @@ class App extends Component {
                 icon="chart-bar"
                 size="lg"
               />
+            </div>
+            <div className="button" onClick={() => this.cancelQuery()}>
+              <FontAwesomeIcon className="button-icon" icon="times" size="lg" />
+            </div>
+            <div className="button" onClick={() => this.toggleQuery()}>
+              <FontAwesomeIcon className="button-icon" icon={icon} size="lg" />
             </div>
           </div>
           <div className="content">
