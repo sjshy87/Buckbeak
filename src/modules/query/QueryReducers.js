@@ -1,22 +1,19 @@
+import uuid from "uuid/v4";
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
-import {
-  takeUntil,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  startWith
-} from "rxjs/operators";
 import { concat } from "rxjs/observable/concat";
 import { ofType } from "redux-observable";
+import {
+  createCollection,
+  updateCollection
+} from "../collection/CollectionActions";
+import { takeUntil, filter, map, mergeMap, switchMap } from "rxjs/operators";
 import {
   CREATE_QUERY,
   RESUME_QUERY,
   PAUSE_QUERY,
   CANCEL_QUERY
 } from "./QueryActions";
-import { updateCollection } from "../collection/CollectionActions";
 
 const initialState = {};
 
@@ -48,16 +45,21 @@ export const queryEpic = (action$, state$) =>
 
       //We separate the query's observable from the source because we assume it 'cold',
       //and we don't want to restart it on subscription
-      action.observable.subscribe(source);
+      console.log("Subscribing", action);
+      action.query.observable.subscribe(source);
       source
         .buffer(pauseQuery)
         .mergeAll()
         .subscribe(buffer);
 
-      return pauseQuery.pipe(
-        switchMap(paused => (paused ? buffer : source)),
-        map(data => updateCollection(id, data)),
-        takeUntil(isComplete)
+      const collectionId = uuid();
+      return concat(
+        Observable.of(createCollection(collectionId, "Something")),
+        pauseQuery.pipe(
+          switchMap(paused => (paused ? buffer : source)),
+          map(data => updateCollection(collectionId, data)),
+          takeUntil(isComplete)
+        )
       );
     })
   );

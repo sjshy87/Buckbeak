@@ -6,7 +6,7 @@ export const PAUSE_QUERY = "PAUSE_QUERY";
 export const CANCEL_QUERY = "CANCEL_QUERY";
 
 /* Actions */
-export const createQuery = def => ({ type: CREATE_QUERY, id: uuid(), ...def });
+export const createQuery = query => ({ type: CREATE_QUERY, id: uuid(), query });
 export const startQuery = id => ({ type: RESUME_QUERY, id });
 export const stopQuery = id => ({ type: PAUSE_QUERY, id });
 export const cancelQuery = id => ({ type: CANCEL_QUERY, id });

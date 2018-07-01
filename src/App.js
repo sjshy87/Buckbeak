@@ -24,13 +24,13 @@ import {
   stopQuery
 } from "./modules/query/QueryActions";
 import PropTypes from "prop-types";
-import { Observable } from "rxjs/Rx";
+import { ADSBSource } from "./modules/sources/adsbSource";
 
 fontawesome.library.add(search, rss, chart, brands, cancel, pause, play);
 
 function mapStateToProps(state) {
   return {
-    collections: state.collections,
+    collections: state.collection,
     panel: state.panel,
     query: state.query,
     map: state.map
@@ -44,7 +44,7 @@ function mapDispatchToProps(dispatch) {
     collapseLeft: () => dispatch(collapsePanel("left")),
     collapseRight: () => dispatch(collapsePanel("right")),
     collapseBottom: () => dispatch(collapsePanel("bottom")),
-    createQuery: observable => dispatch(createQuery({ observable })),
+    createQuery: query => dispatch(createQuery(query)),
     cancelQuery: id => dispatch(cancelQuery(id)),
     startQuery: id => dispatch(startQuery(id)),
     stopQuery: id => dispatch(stopQuery(id))
@@ -69,9 +69,11 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log("Mounting");
-    if (Object.keys(this.props.query).length == 0)
-      this.props.createQuery(Observable.interval(1000));
+    if (window.WebSocket) {
+      this.source = new ADSBSource();
+      if (Object.keys(this.props.query).length === 0)
+        this.props.createQuery(this.source.query());
+    }
   }
   toggleQuery() {
     const id = Object.keys(this.props.query)[0];
@@ -131,9 +133,15 @@ class App extends Component {
             <div className="button" onClick={() => this.cancelQuery()}>
               <FontAwesomeIcon className="button-icon" icon="times" size="lg" />
             </div>
-            <div className="button" onClick={() => this.toggleQuery()}>
-              <FontAwesomeIcon className="button-icon" icon={icon} size="lg" />
-            </div>
+            {icon && (
+              <div className="button" onClick={() => this.toggleQuery()}>
+                <FontAwesomeIcon
+                  className="button-icon"
+                  icon={icon}
+                  size="lg"
+                />
+              </div>
+            )}
           </div>
           <div className="content">
             <ReflexContainer orientation="vertical">
