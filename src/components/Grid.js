@@ -29,7 +29,6 @@ export default class Grid extends Component {
   };
 
   render() {
-    console.log(this.props.data);
     return (
       <div
         style={{ height: "100%", width: "100%" }}

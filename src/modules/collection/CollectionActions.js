@@ -1,6 +1,7 @@
 /* Types */
 export const CREATE_COLLECTION = "CREATE_COLLECTION";
 export const DELETE_COLLECTION = "DELETE_COLLECTION";
+export const DELETE_FROM_COLLECTION = "DELETE_FROM_COLLECTION";
 export const UPDATE_COLLECTION = "UPDATE_COLLECTION";
 
 /* Actions */
@@ -18,4 +19,9 @@ export const updateCollection = (id, data) => ({
   type: UPDATE_COLLECTION,
   id,
   data
+});
+export const deleteFromCollection = (id, ids) => ({
+  type: DELETE_FROM_COLLECTION,
+  id,
+  ids
 });

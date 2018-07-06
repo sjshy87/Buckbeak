@@ -5,9 +5,10 @@ import { combineEpics } from "redux-observable";
 import collection from "../modules/collection/CollectionReducers";
 import map from "../modules/map/MapReducers";
 import panel from "../modules/panel/PanelReducers";
-import query, { queryEpic } from "../modules/query/QueryReducers";
+import query, { sharedWorkerProxyEpic } from "../modules/query/QueryReducers";
+//import query, { queryEpic, sharedWorkerProxyEpic } from "../modules/query/QueryReducers";
 
-export const rootEpic = combineEpics(queryEpic);
+export const rootEpic = combineEpics(sharedWorkerProxyEpic); //, queryEpic);
 
 const rootReducer = combineReducers({
   collection,

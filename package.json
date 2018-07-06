@@ -25,6 +25,7 @@
     "prop-types": "^15.6.1",
     "queueing-subject": "0.1.1",
     "react": "^16.4.0",
+    "react-app-rewired": "^1.5.2",
     "react-dom": "^16.4.0",
     "react-dom-factories": "^1.0.2",
     "react-leaflet": "^2.0.0-beta.1",
@@ -39,20 +40,22 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-observable": "^0.18.0",
     "redux-thunk": "^2.2.0",
-    "rxjs": ">=5 <6",
-    "rxjs-websockets": "^6.0.1",
-    "uuid": "^3.2.1"
+    "rxjs": "5.5.11",
+    "rxjs-websockets": "../rxjs-websockets/",
+    "shared-worker-loader": "^0.2.0",
+    "uuid": "^3.2.1",
+    "worker-loader": "^2.0.0"
   },
   "scripts": {
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-docs": "esdoc",
-    "start-js": "react-scripts start",
+    "start-js": "HTTPS=true react-app-rewired start",
     "start": "npm-run-all -p watch-css start-docs start-js",
     "build-docs": "esdoc",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "build-js": "react-scripts build",
+    "build-js": "react-app-rewired build",
     "build": "npm-run-all -p build-css build-js build-docs",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-app-rewired test --env=jsdom",
     "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "precommit": "lint-staged",
     "eject": "react-scripts eject"
@@ -61,7 +64,7 @@
     "*.{js,jsx}": [
       "eslint --fix",
       "prettier --write",
-      "cross-env CI=true react-scripts test --env=jsdom --findRelatedTests",
+      "cross-env CI=true react-app-rewired test --env=jsdom --findRelatedTests",
       "git add"
     ],
     "*.scss": [

@@ -1,6 +1,7 @@
 import { WebsocketSource } from "./websocketSource";
+import { map, interval } from "rxjs/operators";
+import { Observable } from "rxjs";
 import _ from "lodash";
-import moment from "moment";
 
 /**
  * Connects to a websocket providing JSON data from ADSBExchange
@@ -15,21 +16,33 @@ export class ADSBSource extends WebsocketSource {
   }
 
   /**
-   * @return {Observable} An Observable of results
+   * An RXJS Observable
+   * typedef {Object} Observable
    */
-  query(def) {
-    return {
-      query: def,
-      observable: this.messages.map(updates => {
+
+  /**
+   * @typedef {Object} Query
+   * @property {Object} query The definition of the query
+   * @property {Observable} observable An observable of the query results
+   */
+
+  /**
+   * @param {Object} [def] A query definition.
+   * @return {Query}  A query object
+   */
+  query() {
+    return this.messages.pipe(
+      map(updates => {
         return updates.map(d => {
-          const time = moment.unix(d.posTime);
-          const position = [time, d.Long, d.Lat];
+          const time = d.PosTime * 1000;
+          const position = { time, value: [d.Long, d.Lat] };
           const properties = _.reduce(
             d,
             (update, value, k) => {
               if (k === "PosTime") return update;
-              const type = _.isNumber(value) ? "numeric" : "string";
-              update[k] = { time, value, type };
+              //const type = _.isNumber(value) ? "numeric" : "string";
+              //update[k] = { time, value, type };
+              update[k] = { time, value };
               return update;
             },
             {}
@@ -44,6 +57,6 @@ export class ADSBSource extends WebsocketSource {
           };
         });
       })
-    };
+    );
   }
 }

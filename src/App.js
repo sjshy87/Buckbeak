@@ -24,7 +24,6 @@ import {
   stopQuery
 } from "./modules/query/QueryActions";
 import PropTypes from "prop-types";
-import { ADSBSource } from "./modules/sources/adsbSource";
 
 fontawesome.library.add(search, rss, chart, brands, cancel, pause, play);
 
@@ -70,9 +69,7 @@ class App extends Component {
 
   componentDidMount() {
     if (window.WebSocket) {
-      this.source = new ADSBSource();
-      if (Object.keys(this.props.query).length === 0)
-        this.props.createQuery(this.source.query());
+      this.props.createQuery("Test", {});
     }
   }
   toggleQuery() {
