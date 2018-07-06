@@ -28,7 +28,6 @@ import {
 const initialState = {};
 
 export const sharedWorkerProxyEpic = (action$, state$) => {
-  return action$; //THIS IS A HACK TO GET PAST TESTING ISSUES
   const worker = new Worker();
   const port = worker.port;
   worker.onerror = e => console.error(e);

@@ -71,6 +71,11 @@
       "stylelint --syntax=scss"
     ]
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.shared.js":"<rootDir>/__mocks__/sharedMock.js"
+    }
+  },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "cross-env": "^5.1.6",
