@@ -28,7 +28,7 @@ import {
 const initialState = {};
 
 export const sharedWorkerProxyEpic = (action$, state$) => {
-  return action$;
+  return action$; //THIS IS A HACK TO GET PAST TESTING ISSUES
   const worker = new Worker();
   const port = worker.port;
   worker.onerror = e => console.error(e);
@@ -38,7 +38,7 @@ export const sharedWorkerProxyEpic = (action$, state$) => {
   //If an error occurs, this will die
   const observable = new Observable(observer => {
     port.onmessage = function(e) {
-      console.log("Got message from worker", e.data.length / 1000000 + "MB");
+      //console.log("Got message from worker", e.data.length / 1000000 + "MB");
       observer.next(JSON.parse(e.data));
     };
     port.onerror = function(e) {

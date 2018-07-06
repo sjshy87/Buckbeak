@@ -19,7 +19,7 @@ import { ofType } from "redux-observable";
 import {
   tap,
   scan,
-  throttleTime,
+  bufferTime,
   bufferToggle,
   takeUntil,
   filter,
@@ -63,6 +63,8 @@ function insertProperty(array, p) {
 
 function mergeUpdates() {
   return function mergeUpdatesImplementation(source) {
+    return source.pipe(bufferTime(5000), mergeAll());
+    /*
     return source.pipe(
       scan((collection, updates) => {
         return updates.reduce((collection, update) => {
@@ -95,6 +97,7 @@ function mergeUpdates() {
       map(collection => Object.values(collection)),
       throttleTime(5000)
     );
+    */
   };
 }
 function mapToCollection(action$) {

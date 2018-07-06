@@ -10,7 +10,7 @@ describe("collection reducer", () => {
       reducer(undefined, actions.createCollection("cid", "name", ["qid"]))
     ).toEqual({
       collections: {
-        cid: { id: "cid", data: [], name: "name", queries: ["qid"] }
+        cid: { id: "cid", data: {}, name: "name", queries: ["qid"] }
       }
     });
   });
