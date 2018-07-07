@@ -1,23 +1,6 @@
-import uuid from "uuid/v4";
 import Worker from "../../workers/collections.shared.js";
-import { Subject, Observable } from "rxjs";
-import { concat } from "rxjs/observable/concat";
-import { of } from "rxjs/observable/of";
+import { Observable } from "rxjs/Observable";
 import { ofType } from "redux-observable";
-import {
-  takeUntil,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  buffer,
-  mergeAll,
-  tap
-} from "rxjs/operators";
-import {
-  createCollection,
-  updateCollection
-} from "../collection/CollectionActions";
 import {
   CREATE_QUERY,
   RESUME_QUERY,
@@ -62,6 +45,7 @@ export const sharedWorkerProxyEpic = (action$, state$) => {
   return observable;
 };
 
+/*
 export const queryEpic = (action$, state$) =>
   action$.pipe(
     ofType(CREATE_QUERY),
@@ -105,6 +89,7 @@ export const queryEpic = (action$, state$) =>
       );
     })
   );
+  */
 
 export default function(state = initialState, action) {
   switch (action.type) {

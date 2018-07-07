@@ -129,12 +129,7 @@ function mapToCollection(action$) {
       //We separate the query's observable from the source because we assume it 'cold',
       //and we don't want to restart it on subscription
       adapter.pipe(mergeUpdates()).subscribe(source);
-      source
-        .pipe(
-          bufferToggle(pauseQuery, toggle => (toggle ? empty() : pauseQuery)),
-          mergeAll()
-        )
-        .subscribe(buffered);
+      source.pipe(buffer(pauseQuery), mergeAll()).subscribe(buffered);
 
       const collectionId = uuid();
       return concat(

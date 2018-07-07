@@ -8,8 +8,6 @@ import {
 
 const initialState = { collections: {} };
 
-const TIME = 0;
-const VALUE = 1;
 function insertProperty(array, p) {
   //If the array is non-empty, try to return a new array with p inserted in the correct location
   if (array.length > 0) {
@@ -18,9 +16,9 @@ function insertProperty(array, p) {
     for (let i = array.length - 1; i >= 0; i--) {
       let property = array[i];
       //We found point *before* insertion.
-      if (property[TIME] <= p[TIME]) {
+      if (property.time <= p.time) {
         //If the values are the same, no change. Return the current array
-        if (property[VALUE] === p[VALUE]) return array;
+        if (property.value === p.value) return array;
         //Otherwise, copy the array, then insert after the current property
         let newArray = array.slice();
         newArray.splice(i + 1, 0, p);
@@ -29,8 +27,7 @@ function insertProperty(array, p) {
     }
   }
   //If we get here, the new value is before all other values.
-  if (array[0] === undefined || p[VALUE] !== array[0][VALUE])
-    return [p, ...array];
+  if (array.length === 0 || p.value !== array[0].value) return [p, ...array];
   return array;
 }
 
@@ -76,6 +73,7 @@ export default function(state = initialState, action) {
               : {
                   id: update.id,
                   start: update.time,
+                  end: update.time,
                   position: [],
                   properties: {}
                 };
@@ -87,12 +85,19 @@ export default function(state = initialState, action) {
                 update.position
               );
             }
-            _.each(update.properties, (v, k) => {
-              entity.properties[k] = insertProperty(
-                entity.properties[k] || [],
-                update.properties[k]
+            if (update.properties) {
+              entity.properties = _.reduce(
+                update.properties,
+                (properties, v, k) => {
+                  properties[k] = insertProperty(
+                    properties[k] || [],
+                    update.properties[k]
+                  );
+                  return properties;
+                },
+                { ...entity.properties }
               );
-            });
+            }
 
             data[update.id] = entity;
             return data;

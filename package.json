@@ -40,6 +40,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-observable": "^0.18.0",
     "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1",
     "rxjs": "5.5.11",
     "rxjs-websockets": "../rxjs-websockets/",
     "shared-worker-loader": "^0.2.0",
@@ -73,7 +74,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.shared.js":"<rootDir>/__mocks__/sharedMock.js"
+      "\\.shared.js": "<rootDir>/__mocks__/sharedMock.js"
     }
   },
   "devDependencies": {
