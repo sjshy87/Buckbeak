@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { AgGridReact } from "ag-grid-react";
@@ -31,6 +32,11 @@ function longitudeGetter(params) {
   if (!params.data.position) return undefined;
   const coords = params.data.position;
   return coords[coords.length - 1].value[1];
+}
+function timeFormatter(params) {
+  return moment(params.value)
+    .utc()
+    .format();
 }
 
 export class Grid extends Component {
@@ -71,8 +77,18 @@ export class Grid extends Component {
         enableCellChangeFlash: true,
         valueGetter: latestValueGetter
       },
-      { headerName: "First seen", field: "start", enableCellChangeFlash: true },
-      { headerName: "Last seen", field: "end", enableCellChangeFlash: true }
+      {
+        headerName: "First seen",
+        field: "start",
+        valueFormatter: timeFormatter,
+        enableCellChangeFlash: true
+      },
+      {
+        headerName: "Last seen",
+        field: "end",
+        valueFormatter: timeFormatter,
+        enableCellChangeFlash: true
+      }
     ],
     theme: "ag-theme-balham-dark"
   };
