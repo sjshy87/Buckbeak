@@ -9,28 +9,19 @@ import _ from "lodash";
  */
 export class TestSource extends Source {
   /**
-   * Constructor for ADSBSource. It takes the same parameters as WebsocketSource
+   * Constructor for Test source.
    */
   constructor(def = {}) {
     super("Test");
   }
 
   /**
-   * An RXJS Observable
-   * typedef {Object} Observable
+   * Take the query definition, completely ignore it, and return a stream of random
+   * locations for 1000 entities every second.
+   * @param {Object} def An object representing the query to execute
+   * @return {Object} An RXJS Observable stream of *batches* of results.
    */
-
-  /**
-   * @typedef {Object} Query
-   * @property {Object} query The definition of the query
-   * @property {Observable} observable An observable of the query results
-   */
-
-  /**
-   * @param {Object} [def] A query definition.
-   * @return {Query}  A query object
-   */
-  query() {
+  query(def) {
     return Observable.interval(1000).map(v => {
       const data = [];
       for (let i = 0; i < 1000; i++) {

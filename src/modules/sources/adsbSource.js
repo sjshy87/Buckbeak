@@ -16,21 +16,13 @@ export class ADSBSource extends WebsocketSource {
   }
 
   /**
-   * An RXJS Observable
-   * typedef {Object} Observable
+   * Take the query definition, completely ignore it, and connect to a websocket that pipes
+   * ADSB Exchange live aircraft locations. Normalize those updates to our internal format.
+   * @param {Object} def An object representing the query to execute
+   * @return {Object} An RXJS Observable stream of *batches* of results.
    */
-
-  /**
-   * @typedef {Object} Query
-   * @property {Object} query The definition of the query
-   * @property {Observable} observable An observable of the query results
-   */
-
-  /**
-   * @param {Object} [def] A query definition.
-   * @return {Query}  A query object
-   */
-  query() {
+  query(def) {
+    //NOTE: This doesn't pay attention to the query definition
     return this.messages.pipe(
       map(updates => {
         return updates.map(d => {

@@ -21,6 +21,7 @@ export const queryCancelled = id => {
  * true or false. It is inteded for use in epics
  *
  * @param {string} id The id of the query to watch for RESUME_QUERY/PAUSE_QUERY actions
+ * @param {boolean} isPaused The initial state of this operator. Generally, you should pull this directly from the state
  */
 export const queryPaused = (id, isPaused) => {
   return action$ =>
