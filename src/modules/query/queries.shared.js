@@ -1,21 +1,23 @@
 import uuid from "uuid/v4";
-import {
-  CREATE_QUERY,
-  RESUME_QUERY,
-  PAUSE_QUERY,
-  CANCEL_QUERY
-} from "../modules/query/QueryActions";
-import {
-  createCollection,
-  updateCollection
-} from "../modules/collection/CollectionActions";
-import { ADSBSource } from "../modules/sources/adsbSource";
-import { TestSource } from "../modules/sources/testSource";
+import { ADSBSource } from "../sources/adsbSource";
+import { TestSource } from "../sources/testSource";
 import { Subject, ReplaySubject } from "rxjs";
 import { concat } from "rxjs/observable/concat";
 import { of } from "rxjs/observable/of";
 import { empty } from "rxjs/observable/empty";
 import { ofType } from "redux-observable";
+import { queryPaused, queryCancelled } from "./QueryOperators";
+import * as sources from "../sources/SourceMap";
+import {
+  CREATE_QUERY,
+  RESUME_QUERY,
+  PAUSE_QUERY,
+  CANCEL_QUERY
+} from "./QueryActions";
+import {
+  createCollection,
+  updateCollection
+} from "../collection/CollectionActions";
 import {
   tap,
   scan,
@@ -30,12 +32,6 @@ import {
   mergeAll,
   pipe
 } from "rxjs/operators";
-import { queryPaused, queryCancelled } from "../modules/query/QueryOperators";
-
-const sources = {
-  ADSB: new ADSBSource(),
-  Test: new TestSource()
-};
 
 function mergeUpdates() {
   return function mergeUpdatesImplementation(source) {
@@ -72,9 +68,9 @@ function mapToCollection(action$) {
   };
 }
 
+const action$ = new Subject();
 self.onconnect = function(e) {
   let port = e.ports[0];
-  let action$ = new Subject();
   port.onmessage = function(e) {
     action$.next(JSON.parse(e.data));
   };

@@ -1,4 +1,4 @@
-import Worker from "../../workers/collections.shared.js";
+import Worker from "./queries.shared.js";
 import { Observable } from "rxjs/Observable";
 import { ofType } from "redux-observable";
 import {
@@ -44,72 +44,37 @@ export const sharedWorkerProxyEpic = (action$, state$) => {
   port.start();
   return observable;
 };
-
-/*
-export const queryEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(CREATE_QUERY),
-    mergeMap(action => {
-      const id = action.id;
-      const source = new Subject(); //Our local subscription  to the source
-      const buffered = new Subject(); //Our buffer of data during pause
-
-      //Watch for CANCEL_QUERY actions related to this query
-      const isComplete = action$.pipe(
-        ofType(CANCEL_QUERY),
-        filter(action => action.id === id)
-      );
-
-      //Look for PAUSE_QUERY and RESUME_QUERY actions related to this query
-      //If it is a PAUSE_QUERY, emit true (pause). Otherwise, emit false (unpaused)
-      //We concat a 'false' first because we want to immediately emit events
-      const pauseQuery = concat(
-        of(false),
-        action$.pipe(
-          ofType(RESUME_QUERY, PAUSE_QUERY),
-          filter(action => action.id === id),
-          map(action => action.type === PAUSE_QUERY)
-        )
-      );
-
-      //We separate the query's observable from the source because we assume it 'cold',
-      //and we don't want to restart it on subscription
-      console.log("Subscribing", action);
-      action.query.observable.subscribe(source);
-      source.pipe(buffer(pauseQuery), mergeAll()).subscribe(buffered);
-
-      const collectionId = uuid();
-      return concat(
-        of(createCollection(collectionId, "Something")),
-        pauseQuery.pipe(
-          switchMap(paused => (paused ? buffered : source)),
-          map(data => updateCollection(collectionId, data)),
-          takeUntil(isComplete)
-        )
-      );
-    })
-  );
-  */
-
+export const handleCreateQuery = (state, action) => {
+  console.log("CREATE QUERY", action);
+  return {
+    ...state,
+    [action.id]: {
+      paused: false,
+      source: action.source,
+      query: action.query
+    }
+  };
+};
+export const handleResumeQuery = (state, action) => {
+  return { ...state, [action.id]: { ...state[action.id], paused: false } };
+};
+export const handlePauseQuery = (state, action) => {
+  return { ...state, [action.id]: { ...state[action.id], paused: true } };
+};
+export const handleCancelQuery = (state, action) => {
+  const { [action.id]: toRemove, ...newState } = state;
+  return newState;
+};
 export default function(state = initialState, action) {
   switch (action.type) {
     case CREATE_QUERY:
-      console.log("CREATE QUERY", action);
-      return {
-        ...state,
-        [action.id]: {
-          paused: false,
-          source: action.source,
-          query: action.query
-        }
-      };
+      return handleCreateQuery(state, action);
     case RESUME_QUERY:
-      return { ...state, [action.id]: { ...state[action.id], paused: false } };
+      return handleResumeQuery(state, action);
     case PAUSE_QUERY:
-      return { ...state, [action.id]: { ...state[action.id], paused: true } };
+      return handlePauseQuery(state, action);
     case CANCEL_QUERY:
-      const { [action.id]: toRemove, ...newState } = state;
-      return newState;
+      return handleCancelQuery(state, action);
     default:
       return state;
   }

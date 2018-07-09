@@ -22,7 +22,7 @@ export default class CollectionGridTabs extends React.Component {
   }
   render() {
     return (
-      <div style={{ display: "flex", "flex-direction": "column" }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <Nav tabs style={{ height: "42px" }}>
           <NavItem>
             <NavLink
