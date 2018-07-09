@@ -13,7 +13,7 @@ import { ReflexContainer, ReflexSplitter, ReflexElement } from "react-reflex";
 import CollapsibleElement from "./modules/panel/CollapsibleElement";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Map2D from "./modules/map/Map2D";
-import Grid from "./components/Grid";
+import CollectionGridTabs from "./components/CollectionGridTabs";
 import "react-reflex/styles.css";
 import "./stylesheets/main.css";
 import { togglePanel, collapsePanel } from "./modules/panel/PanelActions";
@@ -174,7 +174,7 @@ class App extends Component {
                       maxSize={500}
                       threshold={60}
                     >
-                      <Grid />
+                      <CollectionGridTabs />
                     </CollapsibleElement>
                   )}
                 </ReflexContainer>
