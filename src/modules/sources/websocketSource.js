@@ -10,7 +10,7 @@ const defaultFactory = (url, protocols) => new WebSocket(url, protocols);
  * @class {WebsocketSource}
  */
 export class WebsocketSource extends Source {
-  constructor(name, { url, factory = defaultFactory, retryInterval = 5000 }) {
+  constructor(name, { url, factory = defaultFactory, retryInterval = 1000 }) {
     super(name);
     this._input = new QueueingSubject().pipe(
       map(message => JSON.stringify(message))
@@ -25,8 +25,10 @@ export class WebsocketSource extends Source {
 
     this.messages = messages.pipe(
       map(message => JSON.parse(message)),
-
-      retryWhen(errors => errors.pipe(delay(retryInterval))),
+      retryWhen(errors => {
+        console.log("Reconnecting...");
+        return errors.pipe(delay(retryInterval));
+      }),
       share()
     );
     this.connectionStatus = connectionStatus;

@@ -26,10 +26,10 @@ export class TestSource extends Source {
       const data = [];
       for (let i = 0; i < 1000; i++) {
         let time = Date.now();
-        let lat = [time, Math.random() * 180 - 90];
-        let lng = [time, Math.random() * 360 - 180];
-        let alt = [time, Math.random() * 50000];
-        let position = [time, [lng.value, lat.value]];
+        let lat = { time, value: Math.random() * 180 - 90 };
+        let lng = { time, value: Math.random() * 360 - 180 };
+        let alt = { time, value: Math.random() * 50000 };
+        let position = { time, value: [lng.value, lat.value] };
         let properties = {};
         data[i] = {
           id: i,

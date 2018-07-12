@@ -8405,8 +8405,9 @@ rx-lite@*, rx-lite@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
 
-rxjs-websockets@../rxjs-websockets/:
-  version "6.0.1"
+rxjs-websockets@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/rxjs-websockets/-/rxjs-websockets-6.0.2.tgz#052f801a703b0007969e3b1d674e27285acdc5cd"
 
 rxjs@5.5.11, rxjs@^5.0.1:
   version "5.5.11"
