@@ -35,7 +35,26 @@ import {
 
 function mergeUpdates() {
   return function mergeUpdatesImplementation(source) {
-    return source.pipe(bufferTime(5000), mergeAll());
+    return source.pipe(bufferTime(5000), collectBy(d => d.id));
+  };
+}
+function collectBy(field) {
+  return source => {
+    return source.pipe(
+      map(events =>
+        //Events is an array of batched outputs from the source
+        events.reduce(
+          (grouped, updates) =>
+            //Updates is an individual array of bached outputs
+            updates.reduce((grouped, d) => {
+              grouped[d.id] = grouped[d.id] || [];
+              grouped[d.id].push(d);
+              return grouped;
+            }, grouped),
+          {}
+        )
+      )
+    );
   };
 }
 function mapToCollection(action$) {

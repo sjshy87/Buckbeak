@@ -21,15 +21,42 @@ function insertProperty(array, p) {
         //If the values are the same, no change. Return the current array
         if (property.value === p.value) return array;
         //Otherwise, copy the array, then insert after the current property
-        let newArray = array.slice();
-        newArray.splice(i + 1, 0, p);
-        return newArray;
+        array.splice(i + 1, 0, p);
+        return array;
       }
     }
   }
   //If we get here, the new value is before all other values.
-  if (array.length === 0 || p.value !== array[0].value) return [p, ...array];
+  if (array.length === 0 || p.value !== array[0].value) array.push(p);
   return array;
+}
+function applyUpdates(entity, updates) {
+  let updatedProperties = {};
+  let position;
+  return updates.reduce((entity, update) => {
+    entity.end = update.time > entity.end ? update.time : entity.end;
+    if (update.position) {
+      position = position || [...entity.position];
+      entity.position = insertProperty(position, update.position);
+    }
+    if (update.properties) {
+      updatedProperties = _.reduce(
+        update.properties,
+        (updatedProperties, v, k) => {
+          let values = updatedProperties[k]
+            ? updatedProperties[k]
+            : entity.properties[k]
+              ? [...entity.properties[k]]
+              : [];
+          return insertProperty(values, update.properties[k]);
+        },
+        updatedProperties
+      );
+    }
+    entity.properties = { ...entity.properties, ...updatedProperties };
+
+    return entity;
+  }, entity);
 }
 
 export default function(state = initialState, action) {
@@ -67,40 +94,19 @@ export default function(state = initialState, action) {
     case UPDATE_COLLECTION:
       collection = state.collections[id];
       if (collection) {
-        let data = action.data.reduce(
-          (data, update) => {
-            let entity = data[update.id]
-              ? { ...data[update.id] }
+        let data = _.reduce(
+          action.data,
+          (data, updates, id) => {
+            let entity = data[id]
+              ? { ...data[id] }
               : {
-                  id: update.id,
-                  start: update.time,
-                  end: update.time,
+                  id: id,
+                  start: updates[0].time,
+                  end: updates[0].time,
                   position: [],
                   properties: {}
                 };
-            entity.end = update.time > entity.end ? update.time : entity.end;
-
-            if (update.position) {
-              entity.position = insertProperty(
-                entity.position,
-                update.position
-              );
-            }
-            if (update.properties) {
-              entity.properties = _.reduce(
-                update.properties,
-                (properties, v, k) => {
-                  properties[k] = insertProperty(
-                    properties[k] || [],
-                    update.properties[k]
-                  );
-                  return properties;
-                },
-                { ...entity.properties }
-              );
-            }
-
-            data[update.id] = entity;
+            data[id] = applyUpdates(entity, updates);
             return data;
           },
           { ...collection.data }
