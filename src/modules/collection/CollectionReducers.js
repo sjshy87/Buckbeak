@@ -34,6 +34,7 @@ function applyUpdates(entity, updates) {
   let updatedProperties = {};
   let position;
   return updates.reduce((entity, update) => {
+    entity.start = update.time < entity.start ? update.time : entity.start;
     entity.end = update.time > entity.end ? update.time : entity.end;
     if (update.position) {
       position = position || [...entity.position];
@@ -48,7 +49,8 @@ function applyUpdates(entity, updates) {
             : entity.properties[k]
               ? [...entity.properties[k]]
               : [];
-          return insertProperty(values, update.properties[k]);
+          updatedProperties[k] = insertProperty(values, update.properties[k]);
+          return updatedProperties;
         },
         updatedProperties
       );

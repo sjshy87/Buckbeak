@@ -36,7 +36,7 @@ export class TestSource extends Source {
           label: i,
           time,
           position,
-          properties: { lat, lng, alt }
+          properties: { lat, lng, Alt: alt }
         };
       }
       return data;
