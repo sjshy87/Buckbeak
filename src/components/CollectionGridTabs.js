@@ -47,7 +47,7 @@ export class CollectionGridTabs extends React.Component {
       <div style={{ display: "flex", flexDirection: "column" }}>
         <Nav tabs style={{ height: "42px" }}>
           {_.map(this.props.collections, (collection, id) => (
-            <NavItem>
+            <NavItem key={id}>
               <NavLink
                 className={classnames({ active: this.state.activeTab === id })}
                 onClick={() => {
@@ -61,14 +61,10 @@ export class CollectionGridTabs extends React.Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab} style={{ flex: "1" }}>
           {_.map(this.props.collections, (collection, id) => (
-            <TabPane tabId={id} style={{ height: "100%" }}>
+            <TabPane tabId={id} key={id} style={{ height: "100%" }}>
               <Grid />
             </TabPane>
           ))}
-          <TabPane tabId="1" style={{ height: "100%" }}>
-            <Grid />
-          </TabPane>
-          <TabPane tabId="2">boom</TabPane>
         </TabContent>
       </div>
     );
