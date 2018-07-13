@@ -16,7 +16,7 @@ export class CollectionGridTabs extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: undefined
+      activeTab: Object.keys(this.props.collections)[0]
     };
   }
   componentDidUpdate(prevProps, prevState) {
