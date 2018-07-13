@@ -1,6 +1,4 @@
 import uuid from "uuid/v4";
-import { ADSBSource } from "../sources/adsbSource";
-import { TestSource } from "../sources/testSource";
 import { Subject, ReplaySubject } from "rxjs";
 import { concat } from "rxjs/observable/concat";
 import { of } from "rxjs/observable/of";
@@ -33,12 +31,7 @@ import {
   pipe
 } from "rxjs/operators";
 
-function mergeUpdates() {
-  return function mergeUpdatesImplementation(source) {
-    return source.pipe(bufferTime(5000), collectBy(d => d.id));
-  };
-}
-function collectBy(field) {
+export function collectBy(field) {
   return source => {
     return source.pipe(
       map(events =>
@@ -57,7 +50,7 @@ function collectBy(field) {
     );
   };
 }
-function mapToCollection(action$) {
+export function mapToCollection(action$) {
   return function mapToCollectionImplementation(src) {
     return src.mergeMap(action => {
       const adapter = sources[action.source].query(action.query);
@@ -71,7 +64,7 @@ function mapToCollection(action$) {
 
       //We separate the query's observable from the source because we assume it 'cold',
       //and we don't want to restart it on subscription
-      adapter.pipe(mergeUpdates()).subscribe(source);
+      adapter.pipe(bufferTime(5000), collectBy(d => d.id)).subscribe(source);
       source.pipe(buffer(pauseQuery), mergeAll()).subscribe(buffered);
 
       const collectionId = uuid();
