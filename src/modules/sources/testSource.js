@@ -1,7 +1,5 @@
 import { Source } from "./source";
-import { map, interval } from "rxjs/operators";
 import { Observable } from "rxjs";
-import _ from "lodash";
 
 /**
  * Connects to a websocket providing JSON data from ADSBExchange

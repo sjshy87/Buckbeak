@@ -29,7 +29,6 @@ fontawesome.library.add(search, rss, chart, brands, cancel, pause, play);
 
 function mapStateToProps(state) {
   return {
-    collections: state.collection,
     panel: state.panel,
     query: state.query,
     map: state.map
@@ -52,7 +51,6 @@ function mapDispatchToProps(dispatch) {
 
 class App extends Component {
   static propTypes = {
-    collections: PropTypes.object.isRequired,
     panel: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
     toggleLeft: PropTypes.func.isRequired,

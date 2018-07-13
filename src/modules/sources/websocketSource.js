@@ -1,5 +1,5 @@
-import { QueueingSubject } from "queueing-subject";
-import websocketConnect from "rxjs-websockets";
+import { QueueingSubject } from "queueing-subject/lib";
+import websocketConnect from "rxjs-websockets/lib";
 import { Source } from "./source";
 import { map, retryWhen, share, delay } from "rxjs/operators";
 

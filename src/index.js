@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./App.jsx";
 import registerServiceWorker from "./registerServiceWorker";
 import "leaflet/dist/leaflet.css";
 import { Provider } from "react-redux";

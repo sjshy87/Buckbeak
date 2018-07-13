@@ -1,11 +1,11 @@
 import React from "react";
-import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import Grid from "./Grid";
 import _ from "lodash";
+import Grid from "./Grid";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 
 export class CollectionGridTabs extends React.Component {
   static propTypes = {
@@ -22,7 +22,6 @@ export class CollectionGridTabs extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     //Check to see if the activeTab is invalid (the collection was removed)
     const collections = Object.keys(this.props.collections);
-    const index = collections.indexOf(this.state.activeTab);
     if (!_.includes(collections, this.state.activeTab)) {
       const oldCollections = Object.keys(prevProps.collections);
       //If it was, and it wasn't the first tab, set it to the tab before the deleted tab

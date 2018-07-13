@@ -1,4 +1,4 @@
-import uuid from "uuid/v4";
+import uuid from "../../../../../.cache/typescript/2.9/node_modules/@types/uuid/v4";
 import { Subject, ReplaySubject } from "rxjs";
 import { concat } from "rxjs/observable/concat";
 import { of } from "rxjs/observable/of";
