@@ -23,6 +23,7 @@ import {
   startQuery,
   stopQuery
 } from "./modules/query/QueryActions";
+import { ButtonGroup, Button } from "reactstrap";
 import PropTypes from "prop-types";
 
 fontawesome.library.add(search, rss, chart, brands, cancel, pause, play);
@@ -108,35 +109,50 @@ class App extends Component {
         </div>
         <div className="main">
           <div className="left-menu">
-            <div className="button" onClick={() => this.props.toggleLeft()}>
-              <FontAwesomeIcon
-                className="button-icon"
-                icon="search"
-                size="lg"
-              />
-            </div>
-            <div className="button" onClick={() => this.props.toggleRight()}>
-              <FontAwesomeIcon className="button-icon" icon="rss" size="lg" />
-            </div>
-            <div className="button" onClick={() => this.props.toggleBottom()}>
-              <FontAwesomeIcon
-                className="button-icon"
-                icon="chart-bar"
-                size="lg"
-              />
-            </div>
-            <div className="button" onClick={() => this.cancelQuery()}>
-              <FontAwesomeIcon className="button-icon" icon="times" size="lg" />
-            </div>
-            {icon && (
-              <div className="button" onClick={() => this.toggleQuery()}>
+            <ButtonGroup vertical>
+              <Button
+                className="button"
+                onClick={() => this.props.toggleLeft()}
+              >
                 <FontAwesomeIcon
                   className="button-icon"
-                  icon={icon}
+                  icon="search"
                   size="lg"
                 />
-              </div>
-            )}
+              </Button>
+              <Button
+                className="button"
+                onClick={() => this.props.toggleRight()}
+              >
+                <FontAwesomeIcon className="button-icon" icon="rss" size="lg" />
+              </Button>
+              <Button
+                className="button"
+                onClick={() => this.props.toggleBottom()}
+              >
+                <FontAwesomeIcon
+                  className="button-icon"
+                  icon="chart-bar"
+                  size="lg"
+                />
+              </Button>
+              <Button className="button" onClick={() => this.cancelQuery()}>
+                <FontAwesomeIcon
+                  className="button-icon"
+                  icon="times"
+                  size="lg"
+                />
+              </Button>
+              {icon && (
+                <Button className="button" onClick={() => this.toggleQuery()}>
+                  <FontAwesomeIcon
+                    className="button-icon"
+                    icon={icon}
+                    size="lg"
+                  />
+                </Button>
+              )}
+            </ButtonGroup>
           </div>
           <div className="content">
             <ReflexContainer orientation="vertical">

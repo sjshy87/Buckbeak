@@ -8,14 +8,27 @@ $menu-bar-color: #13191c !default;
   .button-icon {
     background-color: rgba(255, 255, 255, 0);
     border: none;
-    display: block;
-    margin: auto;
-    top: 7px; //HACK - not sure how else to center vertically
+
+
+    //display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50%;
+    transform: translate(-50%, -50%);    //top: 7px; //HACK - not sure how else to center vertically
+    &:hover,
+    &.active {
+      background:none;
+    }
   }
   .button {
     color: $button-inactive-color;
     height: 36px;
+    width: 36px;
     position: relative;
+    text-align: center;
+    line-height: 50%;
+    border: none;
 
     &:hover,
     &.active {

@@ -1,4 +1,8 @@
-@import "~bootstrap/dist/css/bootstrap.css";
+$enable-rounded: false;
+$component-active-color: orange;
+$secondary: #13191c;
+
+@import "bootstrap/scss/bootstrap.scss";
 .ag-row {
   -webkit-user-select:text; 
   -moz-user-select:text; 
