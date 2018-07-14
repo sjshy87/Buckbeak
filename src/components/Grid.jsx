@@ -9,15 +9,60 @@ import "ag-grid/dist/styles/ag-grid.css";
 import "ag-grid/dist/styles/ag-theme-balham-dark.css";
 import "ag-grid/dist/styles/ag-theme-balham.css";
 
-const firstCollection = state => {
-  const collections = Object.keys(state.collection.collections);
-  return collections.length === 0
-    ? []
-    : state.collection.collections[collections[0]].data;
-};
-const getCurrentCollection = createSelector([firstCollection], collection =>
+const getData = (state, props) => props.collection.data;
+const getCollectionData = createSelector([getData], collection =>
   Object.values(collection)
 );
+
+const getColumns = (state, props) => {
+  //TODO: Get these from some redux state
+  return [
+    {
+      checkboxSelection: true,
+      pinned: true,
+      suppressMenu: true,
+      headerCheckboxSelection: true,
+      width: 40,
+      suppressResize: true,
+      suppressSizeToFit: true
+    },
+    { headerName: "ID", field: "id", enableCellChangeFlash: true },
+    {
+      headerName: "Latitude",
+      enableCellChangeFlash: true,
+      valueGetter: latitudeGetter
+    },
+    {
+      headerName: "Longitude",
+      enableCellChangeFlash: true,
+      valueGetter: longitudeGetter
+    },
+    {
+      headerName: "Altitude",
+      field: "Alt",
+      enableCellChangeFlash: true,
+      valueGetter: latestValueGetter
+    },
+    {
+      headerName: "First seen",
+      field: "start",
+      valueFormatter: timeFormatter,
+      enableCellChangeFlash: true
+    },
+    {
+      headerName: "Last seen",
+      field: "end",
+      valueFormatter: timeFormatter,
+      enableCellChangeFlash: true
+    }
+  ];
+};
+const getColumnDefs = createSelector([getColumns], columns => {
+  //TODO: We need to map the columns into Ag-grid format. Right now, the sample is already in that
+  //format, but we want the redux state to be purely stateful (the above includes functions for
+  //the formatters and getters, which we don't actually want in redux)
+  return columns;
+});
 
 function latestValueGetter(params) {
   const values = params.data.properties[params.colDef.field];
@@ -50,46 +95,7 @@ export class Grid extends Component {
   };
   static defaultProps = {
     data: [],
-    columns: [
-      {
-        checkboxSelection: true,
-        pinned: true,
-        suppressMenu: true,
-        headerCheckboxSelection: true,
-        width: 40,
-        suppressResize: true,
-        suppressSizeToFit: true
-      },
-      { headerName: "ID", field: "id", enableCellChangeFlash: true },
-      {
-        headerName: "Latitude",
-        enableCellChangeFlash: true,
-        valueGetter: latitudeGetter
-      },
-      {
-        headerName: "Longitude",
-        enableCellChangeFlash: true,
-        valueGetter: longitudeGetter
-      },
-      {
-        headerName: "Altitude",
-        field: "Alt",
-        enableCellChangeFlash: true,
-        valueGetter: latestValueGetter
-      },
-      {
-        headerName: "First seen",
-        field: "start",
-        valueFormatter: timeFormatter,
-        enableCellChangeFlash: true
-      },
-      {
-        headerName: "Last seen",
-        field: "end",
-        valueFormatter: timeFormatter,
-        enableCellChangeFlash: true
-      }
-    ],
+    columns: [],
     theme: "ag-theme-balham-dark"
   };
 
@@ -111,10 +117,11 @@ export class Grid extends Component {
     );
   }
 }
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
   return {
-    data: getCurrentCollection(state)
-    //TODO: columns and theme
+    data: getCollectionData(state, props),
+    columns: getColumnDefs(state, props)
+    //TODO: theme
   };
 }
 
