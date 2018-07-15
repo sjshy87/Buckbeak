@@ -2,3 +2,25 @@
 @import "bootstrap/scss/bootstrap";
 @import "~ag-grid/dist/styles/ag-theme-balham-dark.css";
 @import "~ag-grid/dist/styles/ag-theme-balham.css";
+
+.reflex-layout > .reflex-splitter,
+.reflex-layout > .reflex-splitter:hover,
+.reflex-layout > .reflex-splitter.active {
+    background-color: rgb(19,25,28);
+}
+
+.reflex-layout.horizontal > .reflex-splitter, 
+.reflex-layout.horizontal > .reflex-splitter:hover,
+.reflex-layout.horizontal > .reflex-splitter.active {
+    height: 8px;
+    border-top-color: rgb(41,53,59);
+    border-bottom-color: rgb(41,53,59);
+}
+
+.reflex-layout.vertical > .reflex-splitter, 
+.reflex-layout.vertical > .reflex-splitter:hover,
+.reflex-layout.vertical > .reflex-splitter.active {
+    width: 8px;
+    border-left-color: rgb(41,53,59);
+    border-right-color: rgb(41,53,59);
+}
