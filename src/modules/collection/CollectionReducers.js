@@ -6,6 +6,12 @@ import {
   DELETE_FROM_COLLECTION
 } from "./CollectionActions";
 
+const initialStateTest = {
+  collections: {
+    1: { name: "Fake 1", data: {} },
+    2: { name: "Fake 2", data: {} }
+  }
+};
 const initialState = { collections: {} };
 
 function insertProperty(array, p) {

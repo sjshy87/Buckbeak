@@ -1,0 +1,7 @@
+@import "~ag-grid/dist/styles/ag-grid.css";
+.ag-row {
+  -webkit-user-select:text; 
+  -moz-user-select:text; 
+  -ms-user-select:text; 
+  user-select:text;
+}

@@ -9,10 +9,15 @@ $banner-bg: #29353b;
 $body-bg: #0f1416;
 $body-color: #bcc6c9;
 $enable-rounded: false;
-$component-active-color: orange;
+$component-active-color: $accent-color;
 $secondary: #13191c;
-$active: orange;
-$nav-tabs-link-active-bg: orange;
+$active: $accent-color;
+$nav-tabs-link-active-color:  #13191c;
+$nav-tabs-link-active-bg: $accent-color;
+$nav-tabs-link-hover-border-color: $accent-color;
+$nav-tabs-link-active-border-color: $accent-color;
+$nav-tabs-link-hover-color: #29353b;
+
 
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";

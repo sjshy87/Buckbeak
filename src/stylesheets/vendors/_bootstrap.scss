@@ -1,0 +1,8 @@
+@import "bootstrap/scss/bootstrap.scss";
+.nav-tabs {
+  .nav-link.active {
+    @include hover-focus {
+      color: $nav-tabs-link-hover-color;
+    }
+  }
+}

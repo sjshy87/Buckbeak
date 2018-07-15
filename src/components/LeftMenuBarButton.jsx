@@ -57,6 +57,6 @@ const LeftMenuBarButton = ({ icon, onClick }) => (
 );
 LeftMenuBarButton.propTypes = {
   icon: PropTypes.string.isRequired,
-  onClick: PropTypes.function
+  onClick: PropTypes.any
 };
 export default LeftMenuBarButton;
