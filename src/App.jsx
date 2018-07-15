@@ -21,11 +21,31 @@ import {
   startQuery,
   stopQuery
 } from "./modules/query/QueryActions";
-import { ButtonGroup, Button } from "reactstrap";
+import { ButtonGroup } from "reactstrap";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import Banner from "./components/Banner";
+import TopMenu from "./components/TopMenu";
+import LeftMenu from "./components/LeftMenu";
+import LeftMenuBarButton from "./components/LeftMenuBarButton";
 
 fontawesome.library.add(search, rss, chart, brands, cancel, pause, play);
+
+const Outer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+`;
+const Main = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+`;
+const Content = styled.div`
+  flex: 1 1;
+`;
 
 function mapStateToProps(state) {
   return {
@@ -97,63 +117,43 @@ class App extends Component {
     let id = Object.keys(this.props.query)[0];
     let icon = id ? (this.props.query[id].paused ? "play" : "pause") : null;
     return (
-      <div className="outer">
+      <Outer>
         <Banner>blah</Banner>
-        <div className="top-menu">
+        <TopMenu>
           <FontAwesomeIcon
             icon={["fab", "phoenix-squadron"]}
             size="2x"
             className="icon-brand"
           />
-        </div>
-        <div className="main">
-          <div className="left-menu">
+        </TopMenu>
+        <Main>
+          <LeftMenu>
             <ButtonGroup vertical>
-              <Button
-                className="button"
+              <LeftMenuBarButton
                 onClick={() => this.props.toggleLeft()}
-              >
-                <FontAwesomeIcon
-                  className="button-icon"
-                  icon="search"
-                  size="lg"
-                />
-              </Button>
-              <Button
-                className="button"
+                icon="search"
+              />
+              <LeftMenuBarButton
                 onClick={() => this.props.toggleRight()}
-              >
-                <FontAwesomeIcon className="button-icon" icon="rss" size="lg" />
-              </Button>
-              <Button
-                className="button"
+                icon="rss"
+              />
+              <LeftMenuBarButton
                 onClick={() => this.props.toggleBottom()}
-              >
-                <FontAwesomeIcon
-                  className="button-icon"
-                  icon="chart-bar"
-                  size="lg"
-                />
-              </Button>
-              <Button className="button" onClick={() => this.cancelQuery()}>
-                <FontAwesomeIcon
-                  className="button-icon"
-                  icon="times"
-                  size="lg"
-                />
-              </Button>
+                icon="chart-bar"
+              />
+              <LeftMenuBarButton
+                onClick={() => this.cancelQuery()}
+                icon="times"
+              />
               {icon && (
-                <Button className="button" onClick={() => this.toggleQuery()}>
-                  <FontAwesomeIcon
-                    className="button-icon"
-                    icon={icon}
-                    size="lg"
-                  />
-                </Button>
+                <LeftMenuBarButton
+                  onClick={() => this.toggleQuery()}
+                  icon={icon}
+                />
               )}
             </ButtonGroup>
-          </div>
-          <div className="content">
+          </LeftMenu>
+          <Content>
             <ReflexContainer orientation="vertical">
               {!this.props.panel.left && (
                 <CollapsibleElement
@@ -204,10 +204,10 @@ class App extends Component {
                 </CollapsibleElement>
               )}
             </ReflexContainer>
-          </div>
-        </div>
+          </Content>
+        </Main>
         <Banner>blah</Banner>
-      </div>
+      </Outer>
     );
   }
 }

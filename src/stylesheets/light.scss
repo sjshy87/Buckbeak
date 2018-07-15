@@ -4,5 +4,3 @@
 @import "themes/dark/all"; //Define theme specific-values and pull in theme-specific CSS from 3rd party libraries
 @import "vendors/all";     //Pull in all generic 3rd-party SASS/CSS (not related to the theme
 @import "base/all";        //Pull in base CSS (this use should be limited)
-@import "layout/all";      //TODO - Get rid of this
-@import "pages/all";       //TODO - Get rid of this
