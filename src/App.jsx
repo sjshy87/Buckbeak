@@ -14,8 +14,6 @@ import CollapsibleElement from "./modules/panel/CollapsibleElement";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Map2D from "./modules/map/Map2D";
 import CollectionGridTabs from "./components/CollectionGridTabs";
-import "react-reflex/styles.css";
-import "./stylesheets/main.css";
 import { togglePanel, collapsePanel } from "./modules/panel/PanelActions";
 import {
   createQuery,
@@ -25,6 +23,7 @@ import {
 } from "./modules/query/QueryActions";
 import { ButtonGroup, Button } from "reactstrap";
 import PropTypes from "prop-types";
+import Banner from "./components/Banner";
 
 fontawesome.library.add(search, rss, chart, brands, cancel, pause, play);
 
@@ -99,7 +98,7 @@ class App extends Component {
     let icon = id ? (this.props.query[id].paused ? "play" : "pause") : null;
     return (
       <div className="outer">
-        <div className="banner">Blah</div>
+        <Banner>blah</Banner>
         <div className="top-menu">
           <FontAwesomeIcon
             icon={["fab", "phoenix-squadron"]}
@@ -207,7 +206,7 @@ class App extends Component {
             </ReflexContainer>
           </div>
         </div>
-        <div className="banner">Blah</div>
+        <Banner>blah</Banner>
       </div>
     );
   }

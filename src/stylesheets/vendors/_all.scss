@@ -1,8 +1,7 @@
-$enable-rounded: false;
-$component-active-color: orange;
-$secondary: #13191c;
-
 @import "bootstrap/scss/bootstrap.scss";
+@import "~react-reflex/styles.css";
+@import "~leaflet/dist/leaflet.css";
+@import "~ag-grid/dist/styles/ag-grid.css";
 .ag-row {
   -webkit-user-select:text; 
   -moz-user-select:text; 

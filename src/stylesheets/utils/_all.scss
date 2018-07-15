@@ -1,4 +1,6 @@
-@import "variables";
+/* The utils are SASS functions, mixins, and helpers that are useful to reference when defining variables. 
+ * Otherwise, they should not be used.
+ */
 @import "functions";
 @import "mixins";
 @import "helpers";

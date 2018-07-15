@@ -1,0 +1,18 @@
+//My variables
+$button-inactive-color: #545d62;
+$button-hover-color: #b6c0c3;
+$accent-color: orange;
+$menu-bar-bg: #13191c;
+$banner-bg: #29353b;
+
+//Bootstrap overrides
+$body-bg: #0f1416;
+$body-color: #bcc6c9;
+$enable-rounded: false;
+$component-active-color: orange;
+$secondary: #13191c;
+$active: orange;
+$nav-tabs-link-active-bg: orange;
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";

@@ -5,9 +5,9 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { AgGridReact } from "ag-grid-react";
 import { createSelector } from "reselect";
-import "ag-grid/dist/styles/ag-grid.css";
-import "ag-grid/dist/styles/ag-theme-balham-dark.css";
-import "ag-grid/dist/styles/ag-theme-balham.css";
+//import "ag-grid/dist/styles/ag-grid.css";
+//import "ag-grid/dist/styles/ag-theme-balham-dark.css";
+//import "ag-grid/dist/styles/ag-theme-balham.css";
 
 const getData = (state, props) => props.collection.data;
 const getCollectionData = createSelector([getData], collection =>

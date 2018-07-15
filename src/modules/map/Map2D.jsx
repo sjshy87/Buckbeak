@@ -4,8 +4,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as MapActions from "./MapActions";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import styled from "styled-components";
 
 //Component
+const StyledMap = styled(Map)`
+  width: 100%;
+  height: 100%;
+`;
+
 export class Map2D extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +45,7 @@ export class Map2D extends Component {
 
   render() {
     return (
-      <Map
+      <StyledMap
         ref={this.map}
         crs={this.props.crs.crs}
         center={this.props.center}
@@ -63,7 +69,7 @@ export class Map2D extends Component {
             </Popup>
           </Marker>
         ))}
-      </Map>
+      </StyledMap>
     );
   }
 }
