@@ -33,7 +33,7 @@ export class Map2D extends Component {
   resize() {
     console.log("Invalidating Size");
     const map = this.map.current.leafletElement;
-    map.invalidateSize();
+    if (map) map.invalidateSize();
   }
   clicked(e) {
     console.log("CLICKED", e.latlng);
