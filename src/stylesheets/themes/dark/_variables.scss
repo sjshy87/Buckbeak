@@ -4,6 +4,9 @@ $button-hover-color: #b6c0c3;
 $accent-color: orange;
 $menu-bar-bg: #13191c;
 $banner-bg: #29353b;
+$split-bg:#13191c;
+$split-size: 8px;
+$split-border: #29353b;
 
 //Bootstrap overrides
 $body-bg: #0f1416;
@@ -17,7 +20,6 @@ $nav-tabs-link-active-bg: $accent-color;
 $nav-tabs-link-hover-border-color: $accent-color;
 $nav-tabs-link-active-border-color: $accent-color;
 $nav-tabs-link-hover-color: #29353b;
-
 
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";

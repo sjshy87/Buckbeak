@@ -6,3 +6,24 @@
 .pane-content > div {
   height: 100%;
 } 
+.reflex-layout > .reflex-splitter,
+.reflex-layout > .reflex-splitter:hover,
+.reflex-layout > .reflex-splitter.active {
+    background-color: $split-bg;
+}
+
+.reflex-layout.horizontal > .reflex-splitter, 
+.reflex-layout.horizontal > .reflex-splitter:hover,
+.reflex-layout.horizontal > .reflex-splitter.active {
+    height: $split-size;
+    border-top-color: $split-border;
+    border-bottom-color: $split-border;
+}
+
+.reflex-layout.vertical > .reflex-splitter, 
+.reflex-layout.vertical > .reflex-splitter:hover,
+.reflex-layout.vertical > .reflex-splitter.active {
+    width: $split-size;
+    border-left-color: $split-border;
+    border-right-color: $split-border;
+}
