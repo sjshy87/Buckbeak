@@ -46,6 +46,9 @@ const Main = styled.div`
 const Content = styled.div`
   flex: 1 1;
 `;
+const Brand = styled(FontAwesomeIcon)`
+  color: ${props => props.theme.accentColor};
+`;
 
 function mapStateToProps(state) {
   return {
@@ -120,7 +123,7 @@ class App extends Component {
       <Outer>
         <Banner>blah</Banner>
         <TopMenu>
-          <FontAwesomeIcon
+          <Brand
             icon={["fab", "phoenix-squadron"]}
             size="2x"
             className="icon-brand"
