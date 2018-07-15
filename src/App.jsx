@@ -121,7 +121,7 @@ class App extends Component {
     let icon = id ? (this.props.query[id].paused ? "play" : "pause") : null;
     return (
       <Outer>
-        <Banner>blah</Banner>
+        <Banner>Phoenix GIS</Banner>
         <TopMenu>
           <Brand
             icon={["fab", "phoenix-squadron"]}
@@ -209,7 +209,9 @@ class App extends Component {
             </ReflexContainer>
           </Content>
         </Main>
-        <Banner>blah</Banner>
+        <Banner>
+          Copyright &copy; 2018 Phoenix Project Team. All rights reserved
+        </Banner>
       </Outer>
     );
   }
