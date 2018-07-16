@@ -8,6 +8,10 @@ $split-bg:#13191c;
 $split-size: 8px;
 $split-border: #29353b;
 
+//AG-Grid variables
+$icons-path: "~ag-grid/src/styles/balham-icons/";
+$border-color: #424242; //This shouldn't be necessary, but somehow is. Beware of the generic name 
+
 //Bootstrap overrides
 $body-bg: #0f1416;
 $body-color: #bcc6c9;
@@ -23,3 +27,5 @@ $nav-tabs-link-hover-color: #29353b;
 
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
+@import "ag-grid/src/styles/ag-grid";
+@import "ag-grid/src/styles/ag-theme-balham-dark";
