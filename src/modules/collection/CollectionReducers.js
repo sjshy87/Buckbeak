@@ -1,3 +1,4 @@
+import TimeSeries from "./TimeSeries";
 import _ from "lodash";
 import {
   CREATE_COLLECTION,
@@ -42,8 +43,10 @@ function applyUpdates(entity, updates) {
     entity.start = update.time < entity.start ? update.time : entity.start;
     entity.end = update.time > entity.end ? update.time : entity.end;
     if (update.position) {
-      position = position || [...entity.position];
-      entity.position = insertProperty(position, update.position);
+      entity.position = entity.position.insert(
+        update.position,
+        update.position.time
+      );
     }
     if (update.properties) {
       updatedProperties = _.reduce(
@@ -52,9 +55,12 @@ function applyUpdates(entity, updates) {
           let values = updatedProperties[k]
             ? updatedProperties[k]
             : entity.properties[k]
-              ? [...entity.properties[k]]
-              : [];
-          updatedProperties[k] = insertProperty(values, update.properties[k]);
+              ? entity.properties[k]
+              : new TimeSeries();
+          updatedProperties[k] = values.insert(
+            update.properties[k],
+            update.properties[k].time
+          );
           return updatedProperties;
         },
         updatedProperties
@@ -82,10 +88,6 @@ export default function(state = initialState, action) {
           queries: action.queries,
           data: {}
         };
-        console.log({
-          ...state,
-          collections: { ...state.collections, [id]: collection }
-        });
         return {
           ...state,
           collections: { ...state.collections, [id]: collection }
@@ -110,7 +112,7 @@ export default function(state = initialState, action) {
                   id: id,
                   start: updates[0].time,
                   end: updates[0].time,
-                  position: [],
+                  position: new TimeSeries(),
                   properties: {}
                 };
             data[id] = applyUpdates(entity, updates);
