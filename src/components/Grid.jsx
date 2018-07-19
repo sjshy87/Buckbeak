@@ -65,17 +65,17 @@ const getColumnDefs = createSelector([getColumns], columns => {
 });
 
 function latestValueGetter(params) {
-  const values = params.data.properties[params.colDef.field].data;
+  const values = params.data.properties[params.colDef.field];
   return values === undefined ? undefined : values[values.length - 1].value;
 }
 function latitudeGetter(params) {
   if (!params.data.position) return undefined;
-  const coords = params.data.position.data;
+  const coords = params.data.position;
   return coords[coords.length - 1].value[1];
 }
 function longitudeGetter(params) {
   if (!params.data.position) return undefined;
-  const coords = params.data.position.data;
+  const coords = params.data.position;
   return coords[coords.length - 1].value[0];
 }
 function timeFormatter(params) {
