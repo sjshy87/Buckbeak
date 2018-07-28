@@ -82,7 +82,7 @@ export function mapToCollection(action$) {
 
 self.onconnect = function(e) {
   const action$ = new Subject();
-  let port = e.ports[0];
+  var port = e.ports[0];
   port.onmessage = function(e) {
     action$.next(JSON.parse(e.data));
   };

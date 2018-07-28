@@ -90,6 +90,10 @@
       "\\.shared.js": "<rootDir>/__mocks__/sharedMock.js"
     }
   },
+  "browserslist": {
+    "development": ["Firefox >= 38"],
+    "production": ["Firefox >= 38"]
+  },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-polyfill": "^6.26.0",

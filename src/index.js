@@ -5,6 +5,7 @@ import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "react-redux";
 import store from "./js/store";
 import { ThemeProvider } from "styled-components";
+import "babel-polyfill";
 
 //TODO: Support dynamically importing theme?
 import "./stylesheets/dark.css";

@@ -5,9 +5,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { AgGridReact } from "ag-grid-react";
 import { createSelector } from "reselect";
-//import "ag-grid/dist/styles/ag-grid.css";
-//import "ag-grid/dist/styles/ag-theme-balham-dark.css";
-//import "ag-grid/dist/styles/ag-theme-balham.css";
 
 const getData = (state, props) => props.collection.data;
 const getCollectionData = createSelector([getData], collection =>
@@ -30,29 +27,34 @@ const getColumns = (state, props) => {
     {
       headerName: "Latitude",
       enableCellChangeFlash: true,
+      cellRendererFramework: ValueRenderer,
       valueGetter: latitudeGetter
     },
     {
       headerName: "Longitude",
       enableCellChangeFlash: true,
+      cellRendererFramework: ValueRenderer,
       valueGetter: longitudeGetter
     },
     {
       headerName: "Altitude",
       field: "Alt",
       enableCellChangeFlash: true,
+      cellRendererFramework: ValueRenderer,
       valueGetter: latestValueGetter
     },
     {
       headerName: "First seen",
       field: "start",
       valueFormatter: timeFormatter,
+      cellRendererFramework: ValueRenderer,
       enableCellChangeFlash: true
     },
     {
       headerName: "Last seen",
       field: "end",
       valueFormatter: timeFormatter,
+      cellRendererFramework: ValueRenderer,
       enableCellChangeFlash: true
     }
   ];
@@ -65,17 +67,17 @@ const getColumnDefs = createSelector([getColumns], columns => {
 });
 
 function latestValueGetter(params) {
-  const values = params.data.properties[params.colDef.field];
+  const values = params.data.properties[params.colDef.field].data;
   return values === undefined ? undefined : values[values.length - 1].value;
 }
 function latitudeGetter(params) {
   if (!params.data.position) return undefined;
-  const coords = params.data.position;
+  const coords = params.data.position.data;
   return coords[coords.length - 1].value[1];
 }
 function longitudeGetter(params) {
   if (!params.data.position) return undefined;
-  const coords = params.data.position;
+  const coords = params.data.position.data;
   return coords[coords.length - 1].value[0];
 }
 function timeFormatter(params) {
@@ -83,7 +85,18 @@ function timeFormatter(params) {
     .utc()
     .format();
 }
-
+class ValueRenderer extends React.Component {
+  static propTypes = {
+    colDef: PropTypes.object,
+    value: PropTypes.any
+  };
+  render() {
+    // or access props using 'this'
+    const formatter = this.props.colDef.valueFormatter;
+    const value = formatter ? formatter(this.props.value) : this.props.value;
+    return <span>{value}</span>;
+  }
+}
 export class Grid extends Component {
   static propTypes = {
     /** Data for this grid. Each entry is a row in the grid */

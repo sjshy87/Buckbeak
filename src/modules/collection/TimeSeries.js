@@ -1,6 +1,6 @@
 //TODO: Investigate whether this works on older browsers. Proxy is a new features, but maybe there is
 //a polyfill we can try?
-class TimeSeries {
+export default class TimeSeries {
   constructor(data) {
     this.data = data || [];
     this.length = this.data.length;
@@ -22,21 +22,23 @@ class TimeSeries {
     } else {
       this.data.unshift(item);
     }
-    return new TimeSeriesProxy(this.data);
+    return new TimeSeries(this.data);
   }
   slice(first, last) {
-    return new TimeSeriesProxy(this.data.slice(first, last));
+    return new TimeSeries(this.data.slice(first, last));
   }
   splice(start, deleteCount) {
-    return new TimeSeriesProxy(this.data.splice(start, deleteCount));
+    return new TimeSeries(this.data.splice(start, deleteCount));
   }
+  /*
   *[Symbol.iterator]() {
     for (const x of this.data) {
       yield x.value, x.time;
     }
   }
+  */
 }
-
+/*
 export default class TimeSeriesProxy extends TimeSeries {
   constructor(data) {
     super(data);
@@ -47,3 +49,4 @@ export default class TimeSeriesProxy extends TimeSeries {
     });
   }
 }
+*/

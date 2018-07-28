@@ -6,15 +6,17 @@ import {
   UPDATE_COLLECTION,
   DELETE_FROM_COLLECTION
 } from "./CollectionActions";
-
+/*
 const initialStateTest = {
   collections: {
     1: { name: "Fake 1", data: {} },
     2: { name: "Fake 2", data: {} }
   }
 };
+*/
 const initialState = { collections: {} };
 
+/*
 function insertProperty(array, p) {
   //If the array is non-empty, try to return a new array with p inserted in the correct location
   if (array.length > 0) {
@@ -36,9 +38,9 @@ function insertProperty(array, p) {
   if (array.length === 0 || p.value !== array[0].value) array.push(p);
   return array;
 }
+*/
 function applyUpdates(entity, updates) {
   let updatedProperties = {};
-  let position;
   return updates.reduce((entity, update) => {
     entity.start = update.time < entity.start ? update.time : entity.start;
     entity.end = update.time > entity.end ? update.time : entity.end;

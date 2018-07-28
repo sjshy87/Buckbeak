@@ -31,12 +31,12 @@ export class Map2D extends Component {
     this.resize();
   }
   resize() {
-    console.log("Invalidating Size");
+    //console.log("Invalidating Size");
     const map = this.map.current.leafletElement;
     if (map) map.invalidateSize();
   }
   clicked(e) {
-    console.log("CLICKED", e.latlng);
+    //console.log("CLICKED", e.latlng);
     if (this.state === undefined) return;
     const { markers } = this.state;
     markers.push(e.latlng);
@@ -51,13 +51,13 @@ export class Map2D extends Component {
         center={this.props.center}
         {...this.props.crs.settings}
         zoom={this.props.zoom}
-        onClick={this.clicked.bind(this)}
+        //onClick={this.clicked.bind(this)}
       >
         <TileLayer
           {...this.props.layer.settings}
-          onTileerror={console.warn}
-          onLoading={console.log}
-          onLoad={console.log}
+          //onTileerror={console.warn}
+          //onLoading={console.log}
+          //onLoad={console.log}
         />
 
         {this.state.markers.map((position, idx) => (
