@@ -28,6 +28,7 @@ import Banner from "./components/Banner";
 import TopMenu from "./components/TopMenu";
 import LeftMenu from "./components/LeftMenu";
 import LeftMenuBarButton from "./components/LeftMenuBarButton";
+import CSVUpload from "./components/CSVReader"
 
 fontawesome.library.add(search, rss, chart, brands, cancel, pause, play);
 
@@ -165,7 +166,7 @@ class App extends Component {
                   maxSize={400}
                   threshold={40}
                 >
-                  Left
+                  <CSVUpload />
                 </CollapsibleElement>
               )}
               {!this.props.panel.left && <ReflexSplitter propogate={true} />}
